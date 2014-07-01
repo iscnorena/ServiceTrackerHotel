@@ -104,14 +104,10 @@ class TicketController extends BaseController {
     }
 
     public function resolvedTicket($id)
-    {
+    {   
         $ticket = $this->ticketRepo->find($id);
-        $input = $ticket;
-        //forzamos que sea el id del usuario logueado
-        $input['status'] = 'resuelto';
-        $manager = new AccountRManager($ticket, $input);
-
-        $manager->save();
+        $ticket['status'] = 'resuelto';
+        $ticket->save();
 
         return Redirect::route('home');
     }
@@ -173,10 +169,27 @@ class TicketController extends BaseController {
     {   
         //$tickets = Ticket::all();
         //return View::make ('admin/quejas/list')->with('ejas', $quejas);
-        $tickets = $this->ticketRepo->listAll2();
-        return View::make ('tickets/list')->with('tickets', $tickets);
+        $all_tickets = $this->ticketRepo->listAll2();
+        return View::make ('tickets/list',compact ('all_tickets'));
+        //return View::make ('tickets/list')->with('alltickets', $tickets);
     }
 
+    public function searchTicket()
+    {   
+        $recents_tickets = $this->ticketRepo->recents();
+        return View::make('tickets/search',compact ('recents_tickets'));
+    }
+
+    public function searchView()
+    {   
+        $input = Input::all();
+        $room = $input['room'];
+        $name = $input['name_guest'];
+        $status = $input['status'];
+        //return 'status: '.$status.' room: '.$room.' name: '.$name;
+        $recents_tickets = $this->ticketRepo->search($room,$name,$status);
+        return View::make('tickets/search',compact ('recents_tickets'));
+    }
 
 }
 

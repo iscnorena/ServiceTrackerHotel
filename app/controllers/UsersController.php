@@ -16,13 +16,15 @@ class UsersController extends BaseController {
 
 	public function signUp()
     {
+        $user = Auth::user();
+        return View::make('users/sign-up', compact('user'));
         //$fieldBuilder = new \ServiceTracker\Components\FieldBuilder();
-        return View::make('users/sign-up');
+        //return View::make('users/sign-up');
     }
 
     public function register()
     {
-    	$user = $this->ticketRepo->newTicket();
+    	$user = $this->ticketRepo->newUser();
         $manager = new RegisterManager($user, Input::all());
 
         $manager->save();
@@ -62,6 +64,13 @@ class UsersController extends BaseController {
         $manager->save();
 
         return Redirect::route('home');
+    }
+
+    public function listAll()
+    {   
+        $user = Auth::user();
+        $users = $this->ticketRepo->listAllUser();
+        return View::make ('users/list',compact ('users','user'));
     }
 
    
