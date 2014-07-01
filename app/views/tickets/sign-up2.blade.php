@@ -64,20 +64,24 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {{ Form::label('add_by', 'Anexado Por') }}
-                    {{ Form::text('add_by', $user->username, array('placeholder' => '', 'class' => 'form-control')) }}
+                    {{ Form::text('add_by', $user->username, array('placeholder' => '', 'class' => 'form-control', 'readonly')) }}
                     <p class="error_message">{{ $errors->first('add_by')}}</p>
                 </div>
             </div>
 
             <div class="col-md-4">
-            {{ Field::text('user_id') }}
+            <div class="form-group">
+                            {{ Form::label('user_id', 'Usuario') }}
+                            {{ Form::text('user_id', $user->id, array('placeholder' => '', 'class' => 'form-control', 'readonly')) }}
+                            <p class="error_message">{{ $errors->first('user_id')}}</p>
+                        </div>
             </div>
 
              
              <div class="col-md-12">
                 <div class="form-group">
                     <p>
-                      <input type="submit" value="Register" class="btn btn-primary">
+                      <input type="submit" value="Guardar" class="btn btn-primary">
                     </p>
                 </div>
             </div>

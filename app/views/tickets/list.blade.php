@@ -2,51 +2,68 @@
 
 @section('content')
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
-
+@if (Auth::check())
 <div class="container">
-    <h1>Listado de Tickets</h1>
-
-  
-<table class="table table-striped">
-    <tr>
-        <th>Id</th>
-        <th>Habitaci&oacute;n</th>
-        <th>Requerimiento</th>
-        <th>Estado</th>
-        <th>Atendido Por</th>
-        <th>Departamento</th>
-        <th>Acciones</th>
-    </tr>
-    @foreach ($tickets as $ticket)
-    <tr>
-        <td>{{ $ticket->id }}</td>
-        <td>{{ $ticket->room }}</td>
-        <td>{{ $ticket->request }}</td>
-        <td>{{ $ticket->status }}</td>
-        <td>{{ $ticket->attend_by }}</td>
-        <td>{{ $ticket->category->name }}</td>
-        <td>
-          <a href="{{ route('ticket', [$ticket->id]) }}" class="btn btn-info">
-              Ver
-          </a>
-          <a href="{{ route('edit-ticket', [$ticket->id]) }}" class="btn btn-primary">
-            Editar
-          </a>
-          <a href="{{ route('resolved-ticket', [$ticket->id]) }}" class="btn btn-success">
-              ok
-          </a>
-          <a href="#" data-id="{{ $ticket->id }}" class="btn btn-danger btn-delete">
-             Eliminar
-          </a>
-        </td>
-    </tr>
-    @endforeach
-  </table>
-{{ $tickets->links() }}
-{{ Form::open(array('route' => array('delete-ticket', 'TICKET_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-delete')) }}
-{{ Form::close() }}
-
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Listado de Tickets
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-condensed">
+                            <tr>
+                                <th>Id</th>
+                                <th>Habitaci&oacute;n</th>
+                                <th>Huesped</th>
+                                <th>Requerimiento</th>
+                                <th>Estado</th>
+                                <th>Atendido Por</th>
+                                <th>Departamento</th>
+                                <th>Acciones</th>
+                            </tr>
+                            @foreach ($all_tickets as $tickets)
+                            @if ($tickets->status==='resuelto')
+                            <tr class="success">
+                            @elseif ($tickets->status==='en_proceso')
+                            <tr class="warning">
+                            @else
+                            <tr>
+                            @endif
+                                <td>{{ $tickets->id }}</td>
+                                <td>{{ $tickets->room }}</td>
+                                <td>{{ $tickets->name_guest }}</td>
+                                <td>{{ $tickets->request }}</td>
+                                <td>{{ $tickets->status }}</td>
+                                <td>{{ $tickets->attend_by }}</td>
+                                <td>{{ $tickets->category->name }}</td>
+                                <td >
+                                    <a href="{{ route('ticket', [$tickets->id]) }}" class="btn btn-info">
+                                        <span class="glyphicon glyphicon-search"></span> 
+                                    </a>
+                                    <a href="{{ route('edit-ticket', [$tickets->id]) }}" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                    <a href="{{ route('resolved-ticket', [$tickets->id]) }}" class="btn btn-success">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </a>
+                                    <a href="#" data-id="{{ $tickets->id }}" class="btn btn-danger btn-delete">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                             @endforeach
+                        </table>
+                    </div>
+                    {{ $all_tickets->links() }}
+                    {{ Form::open(array('route' => array('delete-ticket', 'TICKET_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-delete')) }}
+                    {{ Form::close() }}
+                </div> 
+            </div>       
+        </div> <!-- /class="col-md-12"  -->       
+    </div> 
 </div> <!-- /container -->
+@endif
 
-@endsection
+@stop

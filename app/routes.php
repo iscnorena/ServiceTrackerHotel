@@ -1,40 +1,35 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-*/
-  
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
 Route::get('tickets/{slug}/{id}', ['as' => 'category', 'uses' => 'TicketController@category']);
 
-//Route::get('{slug}/{id}', ['as' => 'ticket', 'uses' => 'TicketController@show']);
-
-//accedera al ticket con el id que es un valor unico
-Route::get('show/{id}', ['as' => 'ticket', 'uses' => 'TicketController@show']);
-Route::get('list-ticket', ['as' => 'list-ticket', 'uses' => 'TicketController@listAll']);
-Route::get('tickets/{id}', ['as' => 'edit-ticket', 'uses' => 'TicketController@edit']);
-Route::get('recents-ticket', ['as' => 'recents-ticket', 'uses' => 'TicketController@recents']);
-
 Route::get('last-ticket', ['as' => 'recent-ticket', 'uses' => 'TicketController@lastTicket']);
 
 
-Route::put('ticket/{id}', ['as' => 'update-ticket', 'uses' => 'TicketController@updateTicket']);
-Route::delete('delete/{id}', ['as' => 'delete-ticket', 'uses' => 'TicketController@deleteTicket']);
-Route::put('resolved/{id}', ['as' => 'resolved-ticket', 'uses' => 'TicketController@resolvedTicket']);
 
 
-//Route::post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
+
+//usuarios
 Route::get('sign-up', ['as' => 'sign_up', 'uses' => 'UsersController@signUp']);
 Route::post('sign-up', ['as' => 'register', 'uses' => 'UsersController@register']);
+Route::get('list', ['as' => 'list-user', 'uses' => 'UsersController@listAll']);
 
 //Tickets
 Route::get('new-ticket', ['as' => 'new-ticket', 'uses' => 'TicketController@signUp']);
 Route::post('new-ticket', ['as' => 'register-ticket', 'uses' => 'TicketController@register']);
 Route::get('latest-ticket', ['as' => 'latest-ticket', 'uses' => 'TicketController@latest']);
 Route::get('top-ticket', ['as' => 'top-ticket', 'uses' => 'TicketController@top']);
+
+Route::get('show/{id}', ['as' => 'ticket', 'uses' => 'TicketController@show']);
+Route::get('list-ticket', ['as' => 'list-ticket', 'uses' => 'TicketController@listAll']);
+Route::get('tickets/{id}', ['as' => 'edit-ticket', 'uses' => 'TicketController@edit']);
+Route::get('search', ['as' => 'search-ticket', 'uses' => 'TicketController@searchTicket']);
+Route::post('search', ['as' => 'searchview-ticket', 'uses' => 'TicketController@searchView']);
+Route::get('recents-ticket', ['as' => 'recents-ticket', 'uses' => 'TicketController@recents']);
+Route::put('ticket/{id}', ['as' => 'update-ticket', 'uses' => 'TicketController@updateTicket']);
+Route::delete('delete/{id}', ['as' => 'delete-ticket', 'uses' => 'TicketController@deleteTicket']);
+Route::get('resolved/{id}', ['as' => 'resolved-ticket', 'uses' => 'TicketController@resolvedTicket']);
 
 //Route::get('profile', ['as' => 'profile', 'uses' => 'UsersController@profile']);
 //Route::put('profile', ['as' => 'update_profile', 'uses' => 'UsersController@updateProfile']);
@@ -43,8 +38,8 @@ Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
 
 
 Route::group(['before' => 'guest'], function () {
-    Route::get('sign-up', ['as' => 'sign_up', 'uses' => 'UsersController@signUp']);
-    Route::post('sign-up', ['as' => 'register', 'uses' => 'UsersController@register']);
+    //Route::get('sign-up', ['as' => 'sign_up', 'uses' => 'UsersController@signUp']);
+    //Route::post('sign-up', ['as' => 'register', 'uses' => 'UsersController@register']);
 
     Route::post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
     
@@ -72,8 +67,12 @@ Route::put('account', ['as' => 'update_account', 'uses' => 'UsersController@upda
 
 });
 
-Route::get('search', function (){
+Route::get('searchtest', function (){
    return View::make('search');
+});
+
+Route::get('autocomplete', function (){
+   return View::make('autocomplete');
 });
 
 Route::get('results', function (){

@@ -8,11 +8,11 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Últimos Tickets
+                    Listado de Tickets Recientes
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-striped table-hover table-condensed">
                             <tr>
                                 <th>Id</th>
                                 <th>Habitaci&oacute;n</th>

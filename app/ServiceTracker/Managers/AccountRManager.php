@@ -1,7 +1,7 @@
 <?php namespace ServiceTracker\Managers;
 
 
-class AccountTManager extends BaseManager {
+class AccountRManager extends BaseManager {
 
     public function getRules()
     {

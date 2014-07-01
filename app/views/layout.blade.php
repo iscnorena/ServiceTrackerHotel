@@ -38,11 +38,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ route('home') }}">CPA</a>
+            <a class="navbar-brand" href="{{ route('home') }}">Home</a>
         </div>
         <div class="navbar-collapse collapse">
             @if (Auth::check())
             <ul class="nav navbar-nav pull-right">
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="icon icon-wh i-profile"></span> Usuarios <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ route('sign_up') }}">Nuevo</a></li>
+                        <li><a href="{{ route('list-user') }}">ver</a></li>
+                    </ul>
+                </li>
                 
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -50,6 +60,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ route('new-ticket') }}">Nuevo</a></li>
+                        <li><a href="{{ route('search-ticket') }}">Buscar</a></li>
                         <li><a href="{{ route('list-ticket') }}">Lista</a></li>
                         <li><a href="{{ route('recents-ticket') }}">Ultimos</a></li>
                     </ul>
@@ -89,6 +100,11 @@
     </div>
 </div>
 
+<div class="row">
+<p>
+</p>
+</div>
+
 @yield('content')
 
 <div class="container">
@@ -105,7 +121,11 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+
 <script src="{{ asset('bootstrap/js/admin.js') }}"></script>
+
+<script src="{{ asset('bootstrap/js/typeahead.jquery.min.js') }}"></script>
+<script src="{{ asset('bootstrap/js/autocomplete.js') }}"></script>
 
 @yield ('scripts')
 </body>
