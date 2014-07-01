@@ -15,23 +15,18 @@ class TicketController extends BaseController {
 	{
 		$this->categoryRepo = $categoryRepo;
 		$this->ticketRepo = $ticketRepo;
-        //$this->userRepo = $userRepo;
 	}
 
 	public function category($slug, $id)
 	{
-		//var_dump($slug);
 		$category = $this->categoryRepo->find($id);
-
 		$this->notFoundUnless($category); 
-
-		return View::make('tickets/category', compact('category'));
-		//var_dump($slug);
+		
+        return View::make('tickets/category', compact('category'));
 	}
 
 	public function show($id)
     {   
-        
         $ticket = $this->ticketRepo->find($id);
         $id_user = $ticket->user_id;
         $user = $this->ticketRepo->findUser($id_user);
@@ -43,12 +38,10 @@ class TicketController extends BaseController {
     public function edit($id)
     {
         
-        //return 'Aqui editamos el usuario: ' . $id;
         $ticket = $this->ticketRepo->find($id);
         $id_user = $ticket->user_id;
         $user = $this->ticketRepo->findUser($id_user);
         $categories=$this->categoryRepo->getList();
-        //$queja = Queja::find($id);
         if (is_null ($ticket))
         {
            return 'error no existe';
@@ -60,11 +53,8 @@ class TicketController extends BaseController {
 
     public function updateTicket($id)
     {
-        
         $ticket = $this->ticketRepo->find($id);
-        //return Input::all();
         $manager = new AccountTManager($ticket, Input::all());
-
         $manager->save();
 
         return Redirect::route('home');
@@ -72,17 +62,13 @@ class TicketController extends BaseController {
 
     public function deleteTicket($id)
     {
-        
-        //return "Eliminando el registro $id";
         $ticket = $this->ticketRepo->find($id);
         if (is_null ($ticket))
         {
             return 'no existe model-ticket';
             App::abort(404);
         }
-        
         $ticket->delete();
-
         if (Request::ajax())
         {
             return Response::json(array (
@@ -95,12 +81,6 @@ class TicketController extends BaseController {
         {
             return Redirect::route('home');
         }
-        
-
-        /*
-        User::destroy($id);
-        return Redirect::route('admin.users.index');
-        */
     }
 
     public function resolvedTicket($id)
@@ -116,12 +96,6 @@ class TicketController extends BaseController {
     public function signUp()
     {
         $user = Auth::user();
-
-        //$user = $user->id;
-        //return 'esto es user:'.$user;
-        //return 'Aqui creamos el ticket: ' . $id;
-        //$user=$this->userRepo->getUser();
-        //$user = Auth::user();
         $categories=$this->categoryRepo->getList();
         if (is_null ($categories))
         {
@@ -130,12 +104,6 @@ class TicketController extends BaseController {
         }
 
         return View::make('tickets/sign-up',compact ('categories','user'));
-
-
-
-
-        //$fieldBuilder = new \ServiceTracker\Components\FieldBuilder();
-        //return View::make('tickets/sign-up');
     }
 
     public function register()
@@ -144,22 +112,13 @@ class TicketController extends BaseController {
         $input = Input::all();
         //forzamos que sea el id del usuario logueado
         $input['user_id'] = $user->id;
-    	$ticket = $this->ticketRepo->newTicket2();
-    	//return var_dump(Input::all());
+    	$ticket = $this->ticketRepo->newTicket();
         $manager = new RegisterTManager($ticket, $input);
-
         $manager->save();
         return Redirect::route('home');
-        //return Redirect::back()->withInput()->withErrors($manager->getErrors());
     }
 
-    public function latest()
-    {
-        $latest_tickets = $this->ticketRepo->latest();
-        return View::make('latest',compact ('latest_tickets'));
-    }
-
-        public function recents()
+    public function recents()
     {
         $recents_tickets = $this->ticketRepo->recents();
         return View::make('tickets/recents',compact ('recents_tickets'));
@@ -169,7 +128,7 @@ class TicketController extends BaseController {
     {   
         //$tickets = Ticket::all();
         //return View::make ('admin/quejas/list')->with('ejas', $quejas);
-        $all_tickets = $this->ticketRepo->listAll2();
+        $all_tickets = $this->ticketRepo->listAll();
         return View::make ('tickets/list',compact ('all_tickets'));
         //return View::make ('tickets/list')->with('alltickets', $tickets);
     }

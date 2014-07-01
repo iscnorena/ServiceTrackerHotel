@@ -50,7 +50,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ route('sign_up') }}">Nuevo</a></li>
-                        <li><a href="{{ route('list-user') }}">ver</a></li>
+                        <li><a href="{{ route('list-user') }}">Ver</a></li>
                     </ul>
                 </li>
                 

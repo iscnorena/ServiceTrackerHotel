@@ -6,7 +6,7 @@ Route::get('tickets/{slug}/{id}', ['as' => 'category', 'uses' => 'TicketControll
 
 Route::get('last-ticket', ['as' => 'recent-ticket', 'uses' => 'TicketController@lastTicket']);
 
-
+Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
 
 
 
@@ -16,33 +16,31 @@ Route::post('sign-up', ['as' => 'register', 'uses' => 'UsersController@register'
 Route::get('list', ['as' => 'list-user', 'uses' => 'UsersController@listAll']);
 
 //Tickets
+//Nuevo Ticket
 Route::get('new-ticket', ['as' => 'new-ticket', 'uses' => 'TicketController@signUp']);
 Route::post('new-ticket', ['as' => 'register-ticket', 'uses' => 'TicketController@register']);
-Route::get('latest-ticket', ['as' => 'latest-ticket', 'uses' => 'TicketController@latest']);
-Route::get('top-ticket', ['as' => 'top-ticket', 'uses' => 'TicketController@top']);
-
-Route::get('show/{id}', ['as' => 'ticket', 'uses' => 'TicketController@show']);
-Route::get('list-ticket', ['as' => 'list-ticket', 'uses' => 'TicketController@listAll']);
-Route::get('tickets/{id}', ['as' => 'edit-ticket', 'uses' => 'TicketController@edit']);
+Route::put('ticket/{id}', ['as' => 'update-ticket', 'uses' => 'TicketController@updateTicket']);
+//Busqueda
 Route::get('search', ['as' => 'search-ticket', 'uses' => 'TicketController@searchTicket']);
 Route::post('search', ['as' => 'searchview-ticket', 'uses' => 'TicketController@searchView']);
+//Lista de todos los tickets
+Route::get('list-ticket', ['as' => 'list-ticket', 'uses' => 'TicketController@listAll']);
+//Ultimos Tickets
 Route::get('recents-ticket', ['as' => 'recents-ticket', 'uses' => 'TicketController@recents']);
-Route::put('ticket/{id}', ['as' => 'update-ticket', 'uses' => 'TicketController@updateTicket']);
+//acciones
+Route::get('show/{id}', ['as' => 'ticket', 'uses' => 'TicketController@show']);
+Route::get('tickets/{id}', ['as' => 'edit-ticket', 'uses' => 'TicketController@edit']);
 Route::delete('delete/{id}', ['as' => 'delete-ticket', 'uses' => 'TicketController@deleteTicket']);
 Route::get('resolved/{id}', ['as' => 'resolved-ticket', 'uses' => 'TicketController@resolvedTicket']);
 
+//Experimentales
+//Route::get('latest-ticket', ['as' => 'latest-ticket', 'uses' => 'TicketController@latest']);
+//Route::get('top-ticket', ['as' => 'top-ticket', 'uses' => 'TicketController@top']);
 //Route::get('profile', ['as' => 'profile', 'uses' => 'UsersController@profile']);
 //Route::put('profile', ['as' => 'update_profile', 'uses' => 'UsersController@updateProfile']);
 
-Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
-
-
 Route::group(['before' => 'guest'], function () {
-    //Route::get('sign-up', ['as' => 'sign_up', 'uses' => 'UsersController@signUp']);
-    //Route::post('sign-up', ['as' => 'register', 'uses' => 'UsersController@register']);
-
     Route::post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
-    
 });
 
 // Formularios
@@ -67,6 +65,7 @@ Route::put('account', ['as' => 'update_account', 'uses' => 'UsersController@upda
 
 });
 
+//Experimentales
 Route::get('searchtest', function (){
    return View::make('search');
 });

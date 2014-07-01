@@ -48,24 +48,6 @@ class UsersController extends BaseController {
         return Redirect::route('home');
     }
 
-        public function profile()
-    {
-        $user = Auth::user();
-        $ticket = $user->ticket;
-        return View::make('users/profile', compact('user', 'ticket'));
-    }
-
-    public function updateProfile()
-    {
-        $user = Auth::user();
-        $ticket = $user->ticket;
-        $manager = new ProfileManager($user, Input::all());
-
-        $manager->save();
-
-        return Redirect::route('home');
-    }
-
     public function listAll()
     {   
         $user = Auth::user();

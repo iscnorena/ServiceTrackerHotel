@@ -13,51 +13,30 @@ class TicketRepo extends BaseRepo {
         return new Ticket;
     }
 
-    public function findLatest($take = 10)
-    {
-
-        return Category::with([
-            'tickets' => function ($q) use ($take) {
-                    $q->take($take);
-                    $q->orderBy('created_at', 'DESC');
-                },
-            'tickets.user'
-        ])->get();
-        
-    }
-
-    public function recents($take = 10)
-    {
-        return Ticket::orderBy('created_at','desc')->paginate();        
-    }
-
-    public function latest($take = 10)
-    {
-
-        return Ticket::with([
-            'tickets' => function ($q) use ($take) {
-                    $q->take($take);
-                    $q->orderBy('created_at', 'DESC');
-                },
-            'tickets'
-        ])->get();
-        
-    }
-
+    /*funciones de usercontroller*/
     public function newUser()
     {
         $user = new User();
         $user->type = 'usuario';
         return $user;
     }
+    public function listAllUser()
+    {
+        $users = User::paginate();
+        return $users;
+    }
+    /*-----------------------------*/
 
-    public function newTicket2()
+    public function recents($take = 10)
+    {
+        return Ticket::orderBy('created_at','desc')->paginate();        
+    }
+
+    public function newTicket()
     {
 
         $ticket = new Ticket();
         $ticket->status = 'en_proceso';
-        //$ticket->category_id = 1;
-        //$ticket->user_id = 12;
         return $ticket;
     }
 
@@ -67,26 +46,16 @@ class TicketRepo extends BaseRepo {
         return $ticket;
     }
 
-
     public function newTicket3()
     {
         $ticket = new Ticket();
-        //$ticket->status = 'en_proceso';
-        //$ticket->category_id = 1;
-        //$ticket->user_id = 12;
         return $ticket;
     }
 
-    public function listAll2()
+    public function listAll()
     {
         $tickets = Ticket::paginate();
         return $tickets;
-    }
-
-    public function listAllUser()
-    {
-        $users = User::paginate();
-        return $users;
     }
 
     public function findUser($id)
