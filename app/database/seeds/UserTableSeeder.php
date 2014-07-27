@@ -19,7 +19,7 @@ class UserTableSeeder extends Seeder {
                //'username'  => $faker->randomElement(['CNORENA', 'JFLORES', 'MCARRANZA','SASTUDILLO','MBAHENA','EVARGAS','GTORRES','AARGUELLO','MCASTREJON','ALLAVES']),
                'email'     => 'admin@cpacapulco.com',
                'password'  => 'admin',
-               'type'      => 'admin'
+               'type'      => 'superadmin'
             ]);
 
 		foreach(range(1, 10) as $index)
@@ -29,9 +29,9 @@ class UserTableSeeder extends Seeder {
             User::create([
                'full_name' => $fullName,
                'username'  => $faker->userName,
-               //'username'  => $faker->randomElement(['CNORENA', 'JFLORES', 'MCARRANZA','SASTUDILLO','MBAHENA','EVARGAS','GTORRES','AARGUELLO','MCASTREJON','ALLAVES']),
+               'view'  => $faker->randomElement(['amadellaves', 'recepcion', 'telefonos', 'mantenimiento','sistemas']),
                'email'     => $faker->email,
-               'password'  => '1234',
+               'password'  => Hash::make('1234'),
                'type'      => 'usuario'
             ]);
 

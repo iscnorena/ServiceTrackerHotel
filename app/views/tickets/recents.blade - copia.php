@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Listado
+                    Listado de Tickets Recientes
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -19,7 +19,6 @@
                                 <th>Huesped</th>
                                 <th>Requerimiento</th>
                                 <th>Estado</th>
-                                <th>Anexado</th>
                                 <th>Atendido</th>
                                 <th>Depto</th>
                                 <th>Inicio</th>
@@ -27,7 +26,7 @@
                                 <th>Tiempo</th>
                                 <th>Acciones</th>
                             </tr>
-                            @foreach ($all_tickets as $tickets)
+                            @foreach ($recents_tickets as $tickets)
                             @if ($tickets->status==='resuelto')
                             <tr class="success">
                             @elseif ($tickets->status==='en_proceso')
@@ -40,11 +39,10 @@
                                 <td>{{ $tickets->name_guest }}</td>
                                 <td>{{ $tickets->request }}</td>
                                 <td>{{ $tickets->status }}</td>
-                                <td>{{ $tickets->add_by }}</td>
                                 <td>{{ $tickets->attend_by }}</td>
                                 <td>{{ $tickets->category->name }}</td>
                                 <td>{{ $tickets->created_at }}</td>
-                                <td>{{ $tickets->resolved_by }}</td>
+                                <td>{{ $tickets->resolved_at }}</td>
                                 <td>{{ $tickets->minutes }}</td>
                                 <td >
                                     <a href="{{ route('ticket', [$tickets->id]) }}" class="btn btn-info">
@@ -56,24 +54,22 @@
                                     <a href="{{ route('resolved-ticket', [$tickets->id]) }}" class="btn btn-success">
                                         <span class="glyphicon glyphicon-ok"></span>
                                     </a>
-                                    @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin' )
                                     <a href="#" data-id="{{ $tickets->id }}" class="btn btn-danger btn-delete">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </a>
-                                    @endif
                                 </td>
                             </tr>
                              @endforeach
                         </table>
                     </div>
-                    {{ $all_tickets->links() }}
+                    {{ $recents_tickets->links() }}
                     {{ Form::open(array('route' => array('delete-ticket', 'TICKET_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-delete')) }}
                     {{ Form::close() }}
                 </div> 
             </div>       
         </div> <!-- /class="col-md-12"  -->       
     </div> 
-</div> <!-- /container -->                            
+</div> <!-- /container -->
 @endif
 
 @stop

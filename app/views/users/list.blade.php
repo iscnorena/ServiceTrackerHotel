@@ -11,7 +11,7 @@
                     Listado de Usuarios
                 </div>
                 <div class="panel-body">
-@if ($user->type==='admin')
+@if ($user->type==='superadmin' || $user->type==='admin')
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-condensed">
                             <tr>

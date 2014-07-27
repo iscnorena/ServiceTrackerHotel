@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => 'America/Mexico_City',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -198,7 +198,7 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		//custom
 		'Field'           => 'ServiceTracker\Components\Field',
-		'PDF' => 'Barryvdh\DomPDF\Facade',
+		'PDF' 			  => 'Barryvdh\DomPDF\Facade',
 
 
 	),

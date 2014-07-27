@@ -14,6 +14,7 @@ class RegisterTManager extends BaseManager {
             'status'        =>'required',
             'add_by'        =>'required',
             'category_id'   =>'required',
+            'floor'         =>'',
             'user_id'       =>'required'
             
         ];

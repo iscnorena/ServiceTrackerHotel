@@ -7,17 +7,20 @@ class AccountTManager extends BaseManager {
     {
         $rules = [
 
-            'name_guest'    =>'required',
+            'name_guest'    =>'',
             'room'          =>'required|integer',
+            'group'         =>'',
             'request'       =>'required',
-            'notes'         =>'required',
+            'notes'         =>'',
             'report_by'     =>'required',
             'attend_by'     =>'required',
             'status'        =>'required',
-            'add_by'        =>'required',
+            'minutes'       =>'',
+            'update_by'     =>'required',
+            'floor'         =>'',
             'attend_by'     =>'required',
             'category_id'   =>'required',
-            'user_id'       =>'required'
+            'user_id'       =>''
         ];
 
         return $rules;

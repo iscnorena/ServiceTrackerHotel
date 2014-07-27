@@ -2,32 +2,74 @@
 
 @section('content')
 
-@if (Auth::check())
+<div class="container">
+
+       <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Buscar
+                    </div>
+                    <div class="panel-body">
+
+                {{ Form::open(['route' => 'reportsview-ticket', 'method' => 'POST', 'role' => 'form', 'novalidate']) }}
+
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ Field::text('room') }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ Field::text('name_guest') }}
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ Form::label('status', 'Estado') }}
+                            {{ Form::select('status',array('en_proceso' => 'En Proceso', 'resuelto' => 'Resuelto', 'todos'=> 'Todos'),'todos',array('class' => 'form-control')) }}
+                            <p class="error_message">{{ $errors->first('status')}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="row">
+                     <div class="col-md-12">
+                        <div class="form-group">
+                            <p>
+                              <input type="submit" value="Buscar" class="btn btn-primary">
+                            </p>
+                        </div>
+                    </div>
+
+                    {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Listado
+                    Recientes
                 </div>
                 <div class="panel-body">
+                     <a href="{{ route('reports-pdf')}}" class="btn btn-info">PDF</a>
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover table-condensed">
+                        <table class="table table-striped table-hover">
                             <tr>
                                 <th>Id</th>
-                                <th>Hab</th>
+                                <th>Habitaci&oacute;n</th>
                                 <th>Huesped</th>
                                 <th>Requerimiento</th>
                                 <th>Estado</th>
-                                <th>Anexado</th>
-                                <th>Atendido</th>
-                                <th>Depto</th>
-                                <th>Inicio</th>
-                                <th>OK</th>
-                                <th>Tiempo</th>
+                                <th>Atendido Por</th>
+                                <th>Departamento</th>
                                 <th>Acciones</th>
                             </tr>
-                            @foreach ($all_tickets as $tickets)
+                            @foreach ($reports_tickets as $tickets)
                             @if ($tickets->status==='resuelto')
                             <tr class="success">
                             @elseif ($tickets->status==='en_proceso')
@@ -40,12 +82,8 @@
                                 <td>{{ $tickets->name_guest }}</td>
                                 <td>{{ $tickets->request }}</td>
                                 <td>{{ $tickets->status }}</td>
-                                <td>{{ $tickets->add_by }}</td>
                                 <td>{{ $tickets->attend_by }}</td>
                                 <td>{{ $tickets->category->name }}</td>
-                                <td>{{ $tickets->created_at }}</td>
-                                <td>{{ $tickets->resolved_by }}</td>
-                                <td>{{ $tickets->minutes }}</td>
                                 <td >
                                     <a href="{{ route('ticket', [$tickets->id]) }}" class="btn btn-info">
                                         <span class="glyphicon glyphicon-search"></span> 
@@ -66,14 +104,14 @@
                              @endforeach
                         </table>
                     </div>
-                    {{ $all_tickets->links() }}
+                    {{ $reports_tickets->links() }}
                     {{ Form::open(array('route' => array('delete-ticket', 'TICKET_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-delete')) }}
                     {{ Form::close() }}
                 </div> 
             </div>       
         </div> <!-- /class="col-md-12"  -->       
     </div> 
-</div> <!-- /container -->                            
-@endif
+</div> <!-- /container -->
 
-@stop
+@endsection 
+

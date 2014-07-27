@@ -20,6 +20,10 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('style.css') }}" rel="stylesheet">
 
+    <!-- Custom styles for datepicker -->
+    <link href="{{ asset('bootstrap/css/datepicker.css') }}" rel="stylesheet">
+
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -43,7 +47,8 @@
         <div class="navbar-collapse collapse">
             @if (Auth::check())
             <ul class="nav navbar-nav pull-right">
-
+                <!-- usuarios -->
+                @if ( Auth::user()->type==='superadmin' )
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="icon icon-wh i-profile"></span> Usuarios <span class="caret"></span>
@@ -53,20 +58,27 @@
                         <li><a href="{{ route('list-user') }}">Ver</a></li>
                     </ul>
                 </li>
-                
+                @endif
+
+                @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin' ||  Auth::user()->type==='usuario' )                
+                <!-- Tickets -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="icon icon-wh i-profile"></span> Tickets <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ route('new-ticket') }}">Nuevo</a></li>
+                        <li><a href="{{ route('home') }}">Nuevo</a></li>
+                        <!-- <li><a href="{{ route('new-ticket') }}">Nuevo</a></li> -->
                         <li><a href="{{ route('search-ticket') }}">Buscar</a></li>
-                        <li><a href="{{ route('list-ticket') }}">Lista</a></li>
-                        <li><a href="{{ route('recents-ticket') }}">Ultimos</a></li>
+                        <!--<li><a href="{{ route('list-ticket') }}">Lista</a></li>-->
+                        <!-- <li><a href="{{ route('recents-ticket') }}">Ultimos</a></li> -->
+                        <li><a href="{{ route('reports-ticket') }}">Reportes</a></li>
+                        <!-- <li><a href="{{ route('top-ticket') }}">TOP</a></li> -->
                     </ul>
                 </li>
-
-
+                @endif
+                
+                <!-- perfil -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="icon icon-wh i-profile"></span> {{ Auth::user()->username }}  <span class="caret"></span>
@@ -126,6 +138,15 @@
 
 <script src="{{ asset('bootstrap/js/typeahead.jquery.min.js') }}"></script>
 <script src="{{ asset('bootstrap/js/autocomplete.js') }}"></script>
+<script src="{{ asset('bootstrap/js/bootstrap-datepicker.js') }}"></script>
+<script>
+$('#dp1').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+$('#dp2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+</script>
 
 @yield ('scripts')
 </body>

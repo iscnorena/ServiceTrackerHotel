@@ -39,8 +39,9 @@ class TicketController extends BaseController {
     {
         
         $ticket = $this->ticketRepo->find($id);
-        $id_user = $ticket->user_id;
-        $user = $this->ticketRepo->findUser($id_user);
+        $user = Auth::user();
+        //$id_user = $ticket->user_id;
+        //$user = $this->ticketRepo->findUser($id_user);
         $categories=$this->categoryRepo->getList();
         if (is_null ($ticket))
         {
@@ -54,7 +55,15 @@ class TicketController extends BaseController {
     public function updateTicket($id)
     {
         $ticket = $this->ticketRepo->find($id);
-        $manager = new AccountTManager($ticket, Input::all());
+        $input = Input::all();
+        $status = $input['status'];
+        if ($status=='en_proceso')
+        {
+            $input['minutes'] = '';
+        }
+        //forzamos que sea el id del usuario logueado sea el de update_by
+        //$input['update_by'] = $user->id;
+        $manager = new AccountTManager($ticket, $input);
         $manager->save();
 
         return Redirect::route('home');
@@ -85,8 +94,15 @@ class TicketController extends BaseController {
 
     public function resolvedTicket($id)
     {   
+        
         $ticket = $this->ticketRepo->find($id);
         $ticket['status'] = 'resuelto';
+        $created_at =$ticket['created_at'];
+        $date =date("Y-m-d G:i:s");
+        $ticket['resolved_at'] = $date;
+        $sec =strtotime($date) - strtotime($created_at);
+        $min = intval($sec/60);
+        $ticket['minutes'] = $min;
         $ticket->save();
 
         return Redirect::route('home');
@@ -112,7 +128,10 @@ class TicketController extends BaseController {
         $input = Input::all();
         //forzamos que sea el id del usuario logueado
         $input['user_id'] = $user->id;
-    	$ticket = $this->ticketRepo->newTicket();
+        $room = $input['room'];
+        $input['floor'] = $this->ticketRepo->getFloor($room);
+    	//return $input['floor'];
+        $ticket = $this->ticketRepo->newTicket();
         $manager = new RegisterTManager($ticket, $input);
         $manager->save();
         return Redirect::route('home');
@@ -145,9 +164,102 @@ class TicketController extends BaseController {
         $room = $input['room'];
         $name = $input['name_guest'];
         $status = $input['status'];
+        $datei = $input['datei'];
+        $datef = $input['datef'];
         //return 'status: '.$status.' room: '.$room.' name: '.$name;
-        $recents_tickets = $this->ticketRepo->search($room,$name,$status);
+        //$recents_tickets = $this->ticketRepo->search($room,$name,$status);
+        $recents_tickets = $this->ticketRepo->searchReport($room,$name,$status,$datei,$datef);
         return View::make('tickets/search',compact ('recents_tickets'));
+    }
+
+    public function reportsView()
+    {   
+        //check which submit was clicked on
+        if(Input::get('buscar')) 
+        {
+            $input = Input::all();
+            $room = $input['room'];
+            $name = $input['name_guest'];
+            $status = $input['status'];
+            $datei = $input['datei'];
+            $datef = $input['datef'];
+            //return 'status: '.$status.' room: '.$room.' name: '.$name;
+            //return 'datei : '.$datei.'------datef: '.$datef;
+            $reports_tickets = $this->ticketRepo->searchReport($room,$name,$status,$datei,$datef);
+            return View::make('tickets/reports',compact ('reports_tickets'));            
+        } 
+        elseif(Input::get('pdf')) 
+        {
+            $input = Input::all();
+            $room = $input['room'];
+            $name = $input['name_guest'];
+            $status = $input['status'];
+            $datei = $input['datei'];
+            $datef = $input['datef'];
+            //return 'status: '.$status.' room: '.$room.' name: '.$name;
+            //return 'datei : '.$datei.'------datef: '.$datef;
+            $reports_tickets = $this->ticketRepo->searchReportPdf($room,$name,$status,$datei,$datef);
+            $pdf = PDF::loadView('search2',compact ('reports_tickets'));
+            return $pdf->stream();
+        }
+
+
+
+        
+    }
+
+    public function reportsTicket()
+    {
+        $reports_tickets = $this->ticketRepo->reports();
+        return View::make('tickets/reports',compact ('reports_tickets'));
+    }
+
+    public function reportspdfTicket()
+    {
+
+        //$recents_tickets = $this->ticketRepo->recents();
+        //$user = Auth::user();
+        $reports_tickets = $this->ticketRepo->reportsPdf();
+        //return 'status: '.$status.' room: '.$room.' name: '.$name;
+
+        //$pdf->loadFile(public_path().'\mypdf1.html'); 
+        //$html = View::make('hello');
+
+        //$recents_tickets = $this->ticketRepo->recents();
+        //$data = Model::findOrFail($id);
+        //$pdf = PDF::loadView('hello');
+        $pdf = PDF::loadView('search2',compact ('reports_tickets'));
+        return $pdf->stream();
+
+        //$pdf = App::make('dompdf');
+        //$pdf->loadFile(public_path().'\mypdf.html');
+        //$pdf->loadHTML('<h1>Test</h1>');
+        //$pdf->loadHTML($html);
+        //return $pdf->stream();
+    }
+    public function topView()
+    {   
+        $input = Input::all();
+        $campo = $input['room'];
+        $name = $input['name_guest'];
+        $status = $input['status'];
+        $datei = $input['datei'];
+        $datef = $input['datef'];
+        //return 'status: '.$status.' room: '.$room.' name: '.$name;
+        //return 'datei : '.$datei.'------datef: '.$datef;
+        $reports_tickets = $this->ticketRepo->searchReport($room,$name,$status,$datei,$datef);
+        return View::make('tickets/reports',compact ('reports_tickets'));
+    }
+
+    public function topTicket()
+    {
+        //$input = Input::all();
+        $campo = 'request';
+        $datei = '';
+        $datef = '';
+        $top_tickets = $this->ticketRepo->searchTop($campo,$datei,$datef);
+        //return $top_tickets;
+        return View::make('tickets/top',compact ('top_tickets'));
     }
 
 }

@@ -32,6 +32,25 @@ Route::get('show/{id}', ['as' => 'ticket', 'uses' => 'TicketController@show']);
 Route::get('tickets/{id}', ['as' => 'edit-ticket', 'uses' => 'TicketController@edit']);
 Route::delete('delete/{id}', ['as' => 'delete-ticket', 'uses' => 'TicketController@deleteTicket']);
 Route::get('resolved/{id}', ['as' => 'resolved-ticket', 'uses' => 'TicketController@resolvedTicket']);
+//Reportes
+Route::get('reports', ['as' => 'reports-ticket', 'uses' => 'TicketController@reportsTicket']);
+//Route::post('reports', ['as' => 'reportsview-ticket', 'uses' => 'TicketController@reportsView']);
+
+//TOP
+Route::get('reports/top', ['as' => 'top-ticket', 'uses' => 'TicketController@topTicket']);
+Route::post('reports/top', ['as' => 'topview-ticket', 'uses' => 'TicketController@topView']);
+
+//Reportes PDF
+Route::get('reports/pdf', ['as' => 'reports-pdf', 'uses' => 'TicketController@reportspdfTicket']);
+
+
+Route::post('reports/tickets', array('uses' => 'TicketController@reportsView'));
+
+//Back
+Route::get('back', function (){
+   return Redirect::back();
+});
+Route::get('back', ['as' => 'back', 'uses' => 'HomeController@backPage']);
 
 //Experimentales
 //Route::get('latest-ticket', ['as' => 'latest-ticket', 'uses' => 'TicketController@latest']);
@@ -39,9 +58,8 @@ Route::get('resolved/{id}', ['as' => 'resolved-ticket', 'uses' => 'TicketControl
 //Route::get('profile', ['as' => 'profile', 'uses' => 'UsersController@profile']);
 //Route::put('profile', ['as' => 'update_profile', 'uses' => 'UsersController@updateProfile']);
 
-Route::group(['before' => 'guest'], function () {
-    Route::post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
-});
+
+Route::post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
 
 // Formularios
 Route::group(['before' => 'auth'], function () {
@@ -64,6 +82,7 @@ Route::put('account', ['as' => 'update_account', 'uses' => 'UsersController@upda
     });
 
 });
+
 
 //Experimentales
 Route::get('searchtest', function (){

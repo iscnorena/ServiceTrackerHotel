@@ -11,21 +11,43 @@
                     Nuevo Usuario
                 </div>
                 <div class="panel-body">
-@if ($user->type==='admin')
+@if ($user->type==='superadmin')
             {{ Form::open(['route' => 'register', 'method' => 'POST', 'role' => 'form', 'novalidate']) }}
             
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     {{ Field::text('full_name') }}
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-2">
                     {{ Field::text('username') }}
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     {{ Field::email('email') }}
                 </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {{ Form::label('view', 'Departamento') }}
+                        {{ Form::select('view',array('amadellaves' => 'Ama de Llaves', 'areaspublicas' => 'Areas Publicas', 'ayb' => 'AyB', 'mantenimiento' => 'Mantenimiento', 'recepcion' => 'Recepción', 'sistemas' => 'Sistemas', 'telefonos' => 'Telefonos'),'amadellaves',array('class' => 'form-control')) }}
+                        <p class="error_message">{{ $errors->first('view')}}</p>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {{ Form::label('type', 'Tipo') }}
+                        {{ Form::select('type',array('superadmin' => 'Superadmin', 'admin' => 'Admin', 'usuario' => 'Usuario', 'depto' => 'Departamento'),'usuario',array('class' => 'form-control')) }}
+                        <p class="error_message">{{ $errors->first('type')}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                
+
+                
             </div>
 
             <div class="row">

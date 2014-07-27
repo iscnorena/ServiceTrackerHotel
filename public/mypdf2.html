@@ -1,0 +1,25 @@
+@foreach ($recents_tickets as $tickets)                         
+                            <tr>
+                                <td>{{ $tickets->id }}</td>
+                                <td>{{ $tickets->room }}</td>
+                                <td>{{ $tickets->name_guest }}</td>
+                                <td>{{ $tickets->request }}</td>
+                                <td>{{ $tickets->status }}</td>
+                                <td>{{ $tickets->add_by }}</td>
+                                <td>{{ $tickets->attend_by }}</td>
+                                <td>{{ $tickets->category->name }}</td>
+                                <td>{{ $tickets->created_at }}</td>
+                                <td>{{ $tickets->resolved_by }}</td>
+                                <td>{{ $tickets->minutes }}</td>
+                            </tr>
+                             @endforeach
+                        </table>
+                    </div>
+                </div> 
+            </div>       
+        </div> <!-- /class="col-md-12"  -->       
+    </div> 
+</div> <!-- /container -->   
+
+</body>
+</html>

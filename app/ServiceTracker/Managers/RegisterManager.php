@@ -8,6 +8,8 @@ class RegisterManager extends BaseManager {
             'full_name' =>'required',
             'username'  =>'required|unique:users,username',
             'email'     =>'required|email',
+            'view' =>'required',
+            'type' =>'required',
             'password'  =>'required|confirmed',
             'password_confirmation' => 'required'
         ];
