@@ -19,6 +19,8 @@
                                 <th>Nombre</th>
                                 <th>Usuario</th>
                                 <th>Email</th>
+                                <th>Tipo</th>
+                                <th>Depto</th>
                                 <th>Creado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -28,9 +30,13 @@
                                 <td>{{ $user->full_name }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>{{ $user->type }}</td>
+                                <td>{{ $user->view }}</td>
                                 <td>{{ $user->created_at }}</td>
                                 <td >
-                            
+                                    <a href="{{ route('edit-user', [$user->id]) }}" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>                                 
                                 </td>
                             </tr>
                              @endforeach

@@ -1,5 +1,5 @@
 <?php
-
+//Index
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
 Route::get('tickets/{slug}/{id}', ['as' => 'category', 'uses' => 'TicketController@category']);
@@ -10,19 +10,26 @@ Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
 
 
 
-//usuarios
+/*********** usuarios ****************/
+//nuevo
 Route::get('sign-up', ['as' => 'sign_up', 'uses' => 'UsersController@signUp']);
 Route::post('sign-up', ['as' => 'register', 'uses' => 'UsersController@register']);
+//lista
 Route::get('list', ['as' => 'list-user', 'uses' => 'UsersController@listAll']);
+//edit
+Route::get('users/{id}', ['as' => 'edit-user', 'uses' => 'UsersController@edit']);
+Route::put('user/{id}', ['as' => 'update-user', 'uses' => 'UsersController@updateUser']);
 
-//Tickets
+
+/*********** tickets ****************/
 //Nuevo Ticket
 Route::get('new-ticket', ['as' => 'new-ticket', 'uses' => 'TicketController@signUp']);
 Route::post('new-ticket', ['as' => 'register-ticket', 'uses' => 'TicketController@register']);
+//edit and update
 Route::put('ticket/{id}', ['as' => 'update-ticket', 'uses' => 'TicketController@updateTicket']);
 //Busqueda
-Route::get('search', ['as' => 'search-ticket', 'uses' => 'TicketController@searchTicket']);
-Route::post('search', ['as' => 'searchview-ticket', 'uses' => 'TicketController@searchView']);
+Route::get('search2', ['as' => 'search-ticket', 'uses' => 'TicketController@searchTicket']);
+Route::post('search2', ['as' => 'searchview-ticket', 'uses' => 'TicketController@searchView']);
 //Lista de todos los tickets
 Route::get('list-ticket', ['as' => 'list-ticket', 'uses' => 'TicketController@listAll']);
 //Ultimos Tickets
@@ -34,17 +41,24 @@ Route::delete('delete/{id}', ['as' => 'delete-ticket', 'uses' => 'TicketControll
 Route::get('resolved/{id}', ['as' => 'resolved-ticket', 'uses' => 'TicketController@resolvedTicket']);
 //Reportes
 Route::get('reports', ['as' => 'reports-ticket', 'uses' => 'TicketController@reportsTicket']);
-//Route::post('reports', ['as' => 'reportsview-ticket', 'uses' => 'TicketController@reportsView']);
-
+Route::post('reports', ['as' => 'reportsview-ticket', 'uses' => 'TicketController@reportsView']);
 //TOP
 Route::get('reports/top', ['as' => 'top-ticket', 'uses' => 'TicketController@topTicket']);
 Route::post('reports/top', ['as' => 'topview-ticket', 'uses' => 'TicketController@topView']);
-
 //Reportes PDF
 Route::get('reports/pdf', ['as' => 'reports-pdf', 'uses' => 'TicketController@reportspdfTicket']);
 
-
 Route::post('reports/tickets', array('uses' => 'TicketController@reportsView'));
+
+/*********** Directory ****************/
+//Directory
+//busqueda
+Route::get('search-directory', ['as' => 'directory-search', 'uses' => 'TicketController@searchDirectory']);
+Route::get('res', function (){
+    $name = Input::get ('name');
+    $users = ServiceTracker\Entities\Directory::where('full_name','LIKE','%'.$name.'%')->take(20)->get();
+    return Response::json($users);
+});
 
 //Back
 Route::get('back', function (){
@@ -63,7 +77,7 @@ Route::post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
 
 // Formularios
 Route::group(['before' => 'auth'], function () {
-   //formularios
+   //formularios editar perfil
 Route::get('account', ['as' => 'account', 'uses' => 'UsersController@account']);
 Route::put('account', ['as' => 'update_account', 'uses' => 'UsersController@updateAccount']);
 
@@ -84,22 +98,17 @@ Route::put('account', ['as' => 'update_account', 'uses' => 'UsersController@upda
 });
 
 
-//Experimentales
-Route::get('searchtest', function (){
-   return View::make('search');
+/*********** Experimentales ****************/
+
+/*
+Route::get('search', function (){
+   return View::make('search3');
 });
+*/
 
 Route::get('autocomplete', function (){
    return View::make('autocomplete');
 });
-
-Route::get('results', function (){
-    $name = Input::get ('name');
-    $users = ServiceTracker\Entities\User::where('full_name','LIKE','%'.$name.'%')->take(20)->get();
-    return Response ::json($users);
-
-});
-
 
 //PDF DOMPDF de BAridhv
 Route::get('pdf', function (){

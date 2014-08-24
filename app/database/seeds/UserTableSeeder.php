@@ -14,7 +14,7 @@ class UserTableSeeder extends Seeder {
 		$faker = Faker::create();
 
 		User::create([
-               'full_name' => 'Administrator',
+               'full_name' => 'Administrador',
                'username'  => 'admin',
                //'username'  => $faker->randomElement(['CNORENA', 'JFLORES', 'MCARRANZA','SASTUDILLO','MBAHENA','EVARGAS','GTORRES','AARGUELLO','MCASTREJON','ALLAVES']),
                'email'     => 'admin@cpacapulco.com',
@@ -22,7 +22,7 @@ class UserTableSeeder extends Seeder {
                'type'      => 'superadmin'
             ]);
 
-		foreach(range(1, 10) as $index)
+		foreach(range(1, 1) as $index)
 		{
 			$fullName = $faker->name;
 
@@ -31,7 +31,8 @@ class UserTableSeeder extends Seeder {
                'username'  => $faker->userName,
                'view'  => $faker->randomElement(['amadellaves', 'recepcion', 'telefonos', 'mantenimiento','sistemas']),
                'email'     => $faker->email,
-               'password'  => Hash::make('1234'),
+               //'password'  => Hash::make('1234'),
+               'password'  => '1234',
                'type'      => 'usuario'
             ]);
 

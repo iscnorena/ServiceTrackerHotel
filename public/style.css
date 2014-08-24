@@ -12,3 +12,10 @@ body {
     font-weight: normal;
     color: #fff;
 }
+.resolved {
+	background-color: #00FF00;
+}
+
+.process {
+	background-color: #FFFF00;	
+}

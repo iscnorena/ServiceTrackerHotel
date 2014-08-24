@@ -3,11 +3,11 @@
 
 
 
-class Ticket extends \Eloquent {
+class Directory extends \Eloquent {
 
-    protected $fillable = array('name_guest', 'room', 'group', 'request','notes','report_by','attend_by','status', 'minutes', 'removed', 'floor', 'update_by', 'delete_by', 'resolved_at', 'add_by','category_id','user_id','created_at');
+    //protected $fillable = array('name_guest', 'room', 'group', 'request','notes','report_by','attend_by','status', 'minutes', 'removed', 'floor', 'update_by', 'delete_by', 'resolved_at', 'add_by','category_id','user_id');
     protected $perPage = 10;
-    protected $table = 'tickets';
+    protected $table = 'directory';
 
     /*
     public function user()
@@ -23,6 +23,7 @@ class Ticket extends \Eloquent {
         // id de la Persona
     }*/
 
+    /*
     public function category()
     {
     	return $this->belongsTo('ServiceTracker\Entities\Category');
@@ -33,6 +34,7 @@ class Ticket extends \Eloquent {
         // El segundo es el id de la tabla padre en la tabla actual
         // En este caso seria el id de Asignatura en tema 
     }
+    */
 
     /*
     public function getJobTypeTitleAttribute()

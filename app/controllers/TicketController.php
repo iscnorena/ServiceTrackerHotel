@@ -57,10 +57,27 @@ class TicketController extends BaseController {
         $ticket = $this->ticketRepo->find($id);
         $input = Input::all();
         $status = $input['status'];
-        if ($status=='en_proceso')
+        if ($status == 'en_proceso')
         {
             $input['minutes'] = '';
+            $date = date("Y-m-d G:i:s");
+            $input['created_at'] = date("Y-m-d G:i:s");
+            //echo $input['created_at'];
         }
+        elseif ($status == 'resuelto')
+        {
+            $created_at = $ticket['created_at'];
+            $date = date("Y-m-d G:i:s");
+            $ticket['resolved_at'] = $date;
+            $sec =strtotime($date) - strtotime($created_at);
+            $min = intval($sec/60);
+            $input['minutes'] = $min;
+        }
+        //Capitalizar Campos
+        $input['name_guest'] = ucfirst( strtolower($input['name_guest']) );
+        $input['request'] = ucfirst( strtolower($input['request']) );
+        $input['report_by'] = ucfirst( strtolower($input['report_by']) );
+        $input['attend_by'] = ucfirst( strtolower($input['attend_by']) );
         //forzamos que sea el id del usuario logueado sea el de update_by
         //$input['update_by'] = $user->id;
         $manager = new AccountTManager($ticket, $input);
@@ -97,8 +114,8 @@ class TicketController extends BaseController {
         
         $ticket = $this->ticketRepo->find($id);
         $ticket['status'] = 'resuelto';
-        $created_at =$ticket['created_at'];
-        $date =date("Y-m-d G:i:s");
+        $created_at = $ticket['created_at'];
+        $date = date("Y-m-d G:i:s");
         $ticket['resolved_at'] = $date;
         $sec =strtotime($date) - strtotime($created_at);
         $min = intval($sec/60);
@@ -128,6 +145,12 @@ class TicketController extends BaseController {
         $input = Input::all();
         //forzamos que sea el id del usuario logueado
         $input['user_id'] = $user->id;
+        //Capitalizar Campos
+        $input['name_guest'] = ucfirst( strtolower($input['name_guest']) );
+        $input['request'] = ucfirst( strtolower($input['request']) );
+        $input['report_by'] = ucfirst( strtolower($input['report_by']) );
+        $input['attend_by'] = ucfirst( strtolower($input['attend_by']) );
+        //Obtener Piso a partir de la hab
         $room = $input['room'];
         $input['floor'] = $this->ticketRepo->getFloor($room);
     	//return $input['floor'];
@@ -140,6 +163,15 @@ class TicketController extends BaseController {
     public function recents()
     {
         $recents_tickets = $this->ticketRepo->recents();
+        foreach ($recents_tickets as $ticket => &$val)     
+        {
+            //echo $ticket;
+            //echo $val['notes'];
+            $val['notes'] = $this->ticketRepo->cutText($val['notes'],10);
+            //echo $val['notes'];
+            //echo "--------------otro-----------";
+            //$ticket->notes = $this->ticketRepo->cutText($ticket->notes,3);
+        }
         return View::make('tickets/recents',compact ('recents_tickets'));
     }
 
@@ -154,7 +186,7 @@ class TicketController extends BaseController {
 
     public function searchTicket()
     {   
-        $recents_tickets = $this->ticketRepo->recents();
+        $recents_tickets = $this->ticketRepo->recents();      
         return View::make('tickets/search',compact ('recents_tickets'));
     }
 
@@ -255,12 +287,17 @@ class TicketController extends BaseController {
     {
         //$input = Input::all();
         $campo = 'request';
-        $datei = '';
-        $datef = '';
+        $datei = '2014-01-01';
+        $datef = '2014-07-09';
         $top_tickets = $this->ticketRepo->searchTop($campo,$datei,$datef);
         //return $top_tickets;
         return View::make('tickets/top',compact ('top_tickets'));
     }
 
+    public function searchDirectory()
+    {
+        $user = Auth::user();
+        return View::make('search3',compact ('user'));
+    }
 }
 

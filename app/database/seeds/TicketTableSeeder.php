@@ -10,9 +10,10 @@ class TicketTableSeeder extends Seeder {
 
 	public function run()
 	{
+                /*
 		$faker = Faker::create();
 
-		foreach(range(1, 10000) as $index)
+		foreach(range(1, 1) as $index)
 		{
 			Ticket::create([
 				        //'id'          => $user->id,
@@ -31,6 +32,7 @@ class TicketTableSeeder extends Seeder {
                 //'add_by'      => $faker->randomElement(['CNORENA', 'JFLORES', 'MCARRANZA','SASTUDILLO','MBAHENA','EVARGAS','GTORRES','AARGUELLO','MCASTREJON','ALLAVES'])
 			]);
 		}
+                */
 	}
 
 }

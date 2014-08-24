@@ -80,7 +80,6 @@
                                 <th>Id</th>
                                 <th>Hab</th>
                                 <th>Requerimiento</th>
-                                <th>Estado</th>
                                 <th>Anexado</th>
                                 <th>Atendido</th>
                                 <th>Depto</th>
@@ -99,7 +98,6 @@
                                 <td>{{ $tickets->id }}</td>
                                 <td>{{ $tickets->room }}</td>
                                 <td>{{ $tickets->request }}</td>
-                                <td>{{ $tickets->status }}</td>
                                 <td>{{ $tickets->add_by }}</td>
                                 <td>{{ $tickets->attend_by }}</td>
                                 <td>{{ $tickets->category->name }}</td>

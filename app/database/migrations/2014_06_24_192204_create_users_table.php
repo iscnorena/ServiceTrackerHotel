@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration {
             $table->string('email',255);
             $table->string('password');
             //$table->string('password_confirmation');
-            $table->enum('type', ['superadmin', 'usuario', 'admin']);
+            $table->enum('type', ['superadmin', 'usuario', 'admin','depto']);
             $table->string('remember_token')->nullable();
 			
 			$table->timestamps();

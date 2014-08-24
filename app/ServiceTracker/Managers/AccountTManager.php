@@ -20,7 +20,9 @@ class AccountTManager extends BaseManager {
             'floor'         =>'',
             'attend_by'     =>'required',
             'category_id'   =>'required',
-            'user_id'       =>''
+            'user_id'       =>'',
+            'created_at'       =>''
+
         ];
 
         return $rules;

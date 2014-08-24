@@ -24,7 +24,7 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Recientes
+                    Tickets
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">

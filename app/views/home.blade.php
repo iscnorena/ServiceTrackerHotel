@@ -100,11 +100,10 @@
     </div> <!-- class="row" -->
 </div> <!-- class="container" -->
 
-
-<div class="container">
+<div class="container"  >
     <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
+        <div class="col-md-12" >
+            <div class="panel panel-primary" >
                 <div class="panel-heading">
                     Recientes
                 </div>
@@ -115,10 +114,10 @@
                                 <th>Id</th>
                                 <th>Hab</th>
                                 <th>Requerimiento</th>
-                                <th>Estado</th>
-                                <th>Anexado</th>
+                                <th>Por</th>
                                 <th>Atendido</th>
                                 <th>Depto</th>
+                                <th>Observaciones</th>
                                 <th>Inicio</th>
                                 <th>Tiempo</th>
                                 <th>Acciones</th>
@@ -127,17 +126,21 @@
                             @if ($tickets->status==='resuelto')
                             <tr class="success">
                             @elseif ($tickets->status==='en_proceso')
-                            <tr class="warning">
+                                @if(strlen($tickets->notes)==0)
+                                    <tr class="warning">
+                                @else
+                                    <tr class="danger">
+                                @endif
                             @else
                             <tr>
                             @endif
                                 <td>{{ $tickets->id }}</td>
                                 <td>{{ $tickets->room }}</td>
                                 <td>{{ $tickets->request }}</td>
-                                <td>{{ $tickets->status }}</td>
                                 <td>{{ $tickets->add_by }}</td>
                                 <td>{{ $tickets->attend_by }}</td>
-                                <td>{{ $tickets->category->name }}</td>
+                                <td>{{ $tickets->category->slug }}</td>
+                                <td>{{ $tickets->notes }}</td>
                                 <td>{{ $tickets->created_at }}</td>
                                 <td>{{ $tickets->minutes }}</td>
                                 <td >

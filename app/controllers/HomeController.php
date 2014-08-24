@@ -42,6 +42,17 @@ class HomeController extends BaseController {
             App::abort(404);
         }
 		$recents_tickets = $this->ticketRepo->recents();
+		 foreach ($recents_tickets as $ticket => &$val)     
+        {
+            //echo $ticket;
+            //echo $val['notes'];
+            $val['notes'] = $this->ticketRepo->cutText($val['notes'],15);
+           	$val['add_by'] = $this->ticketRepo->cutUser($val['add_by'],2);
+           	//$val['add_by'] = $this->ticketRepo->cutUser($val['add_by'],2);
+            //echo $val['notes'];
+            //echo "--------------otro-----------";
+            //$ticket->notes = $this->ticketRepo->cutText($ticket->notes,3);
+        }
         return View::make('home',compact ('recents_tickets','categories','user'));
 		//return View::make('home');//,compact ('latest_tickets'));
 	}

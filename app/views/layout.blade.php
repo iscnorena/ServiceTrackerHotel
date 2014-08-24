@@ -44,11 +44,21 @@
             </button>
             <a class="navbar-brand" href="{{ route('home') }}">Home</a>
         </div>
+
+
+
         <div class="navbar-collapse collapse">
             @if (Auth::check())
             <ul class="nav navbar-nav pull-right">
-                <!-- usuarios -->
+                
+                
+                @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin' ||  Auth::user()->type==='usuario' )                
+                <!-- Directory -->
+                <li><a href="{{ route('directory-search') }}">Directorio</a></li>
+                @endif
+
                 @if ( Auth::user()->type==='superadmin' )
+                <!-- usuarios -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="icon icon-wh i-profile"></span> Usuarios <span class="caret"></span>
@@ -59,6 +69,8 @@
                     </ul>
                 </li>
                 @endif
+
+
 
                 @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin' ||  Auth::user()->type==='usuario' )                
                 <!-- Tickets -->
@@ -73,7 +85,9 @@
                         <!--<li><a href="{{ route('list-ticket') }}">Lista</a></li>-->
                         <!-- <li><a href="{{ route('recents-ticket') }}">Ultimos</a></li> -->
                         <li><a href="{{ route('reports-ticket') }}">Reportes</a></li>
-                        <!-- <li><a href="{{ route('top-ticket') }}">TOP</a></li> -->
+                         @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin')
+                        <li><a href="{{ route('top-ticket') }}">TOP</a></li>
+                        @endif
                     </ul>
                 </li>
                 @endif
@@ -105,7 +119,7 @@
                         {{ Form::checkbox('remember') }} Recordarme
                     </label>
                 </div>
-                <button type="submit" class="btn btn-success">Sign in</button>
+                <button type="submit" class="btn btn-success">Entrar</button>
             {{Form::close()}}
             @endif
         </div><!--/.navbar-collapse -->
@@ -139,6 +153,8 @@
 <script src="{{ asset('bootstrap/js/typeahead.jquery.min.js') }}"></script>
 <script src="{{ asset('bootstrap/js/autocomplete.js') }}"></script>
 <script src="{{ asset('bootstrap/js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js') }}"></script>
+<script src="{{ asset('bootstrap/js/app.js') }}"></script>
 <script>
 $('#dp1').datepicker({
                 format: 'yyyy-mm-dd'

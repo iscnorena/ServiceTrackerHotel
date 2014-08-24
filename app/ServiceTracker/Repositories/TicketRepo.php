@@ -29,7 +29,33 @@ class TicketRepo extends BaseRepo {
 
     public function recents()
     {
-        return Ticket::orderBy('created_at','desc')->paginate();        
+        return Ticket::orderBy('status','asc')->orderBy('id','desc')->paginate();        
+    }
+
+    public function cutText($text,$num)
+    {
+        if(strlen($text) > $num)
+        {
+            $text=substr($text,0,$num)."...";
+        }
+        else
+        {
+            $text=$text;
+        }
+        return $text;  
+    }
+
+    public function cutUser($text,$num)
+    {
+        if(strlen($text) > $num)
+        {
+            $text=substr($text,0,$num);
+        }
+        else
+        {
+            $text=$text;
+        }
+        return $text;  
     }
 
     public function getidCategory($slug)
@@ -107,6 +133,7 @@ class TicketRepo extends BaseRepo {
         $campo = 'request';
         $datei = '2014-01-01';
         $datef = '2014-07-09';
+        //return \DB::select('SELECT request , COUNT(*) as solicitudes FROM tickets GROUP BY ? ORDER BY solicitudes desc',array($campo));
         return \DB::select('SELECT request , COUNT(*) as solicitudes FROM tickets GROUP BY ? ORDER BY solicitudes desc',array($campo));
 
         //return Ticket::orderBy($campo,'desc')->take(10)-get($campo,); 
