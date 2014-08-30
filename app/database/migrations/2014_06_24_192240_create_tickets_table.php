@@ -16,21 +16,21 @@ class CreateTicketsTable extends Migration {
 		{
 			$table->increments('id');
 
-			$table->string('name_guest',100);
-            $table->string('room',100);
-            $table->string('group',100)->nullable();
-            $table->string('request',100);
-            $table->string('notes',250)->nullable();
-            $table->string('report_by',100);
-            $table->string('attend_by',100);
-            $table->string('update_by',100)->nullable();
-            $table->string('resolved_by',100)->nullable();
-            $table->string('delete_by',100)->nullable();
-            $table->string('status',100);
-            $table->string('minutes',100)->nullable();
-            $table->string('removed',100)->nullable();
-            $table->string('floor',100)->nullable();
-            $table->string('add_by',100);
+			$table->string('name_guest',255);
+            $table->string('room',255);
+            $table->string('group',255)->nullable();
+            $table->string('request',255);
+            $table->string('notes',255)->nullable();
+            $table->string('report_by',255);
+            $table->string('attend_by',255);
+            $table->string('update_by',255)->nullable();
+            $table->string('resolved_by',255)->nullable();
+            $table->string('delete_by',255)->nullable();
+            $table->string('status',255);
+            $table->string('minutes',255)->nullable();
+            $table->string('removed',255)->nullable();
+            $table->string('floor',255)->nullable();
+            $table->string('add_by',255);
             $table->timestamp('resolved_at')->nullable();
             $table->timestamps();      
 

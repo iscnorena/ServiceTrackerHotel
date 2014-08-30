@@ -24,7 +24,7 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Tickets
+                    Recientes
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -33,26 +33,34 @@
                                 <th>Id</th>
                                 <th>Hab</th>
                                 <th>Requerimiento</th>
-                                <th>Estado</th>
-                                <th>Atendido Por</th>
-                                <th>Departamento</th>
+                                <th>Por</th>
+                                <th>Atendido</th>
+                                <th>Depto</th>
+                                <th>Notas</th>
+                                <th>Inicio</th>
                                 <th>Tiempo</th>
-                                <th></th>
+                                <th>Acciones</th>
                             </tr>
                             @foreach ($onecategory_tickets as $tickets)
                             @if ($tickets->status==='resuelto')
                             <tr class="success">
                             @elseif ($tickets->status==='en_proceso')
-                            <tr class="warning">
+                                @if(strlen($tickets->notes)==0)
+                                    <tr class="warning">
+                                @else
+                                    <tr class="danger">
+                                @endif
                             @else
                             <tr>
                             @endif
                                 <td>{{ $tickets->id }}</td>
                                 <td>{{ $tickets->room }}</td>
                                 <td>{{ $tickets->request }}</td>
-                                <td>{{ $tickets->status }}</td>
+                                <td>{{ $tickets->add_by }}</td>
                                 <td>{{ $tickets->attend_by }}</td>
-                                <td>{{ $tickets->category->name }}</td>
+                                <td>{{ $tickets->category->slug }}</td>
+                                <td>{{ $tickets->notes }}</td>
+                                <td>{{ $tickets->created_at }}</td>
                                 <td>{{ $tickets->minutes }}</td>
                                 <td >
                                     <a href="{{ route('ticket', [$tickets->id]) }}" class="btn btn-info">
@@ -64,7 +72,7 @@
                         </table>
                     </div>
                     {{ $onecategory_tickets->links() }}
-                </div> 
+                </div>
             </div>       
         </div> <!-- /class="col-md-12"  -->       
     </div> 

@@ -117,7 +117,7 @@
                                 <th>Por</th>
                                 <th>Atendido</th>
                                 <th>Depto</th>
-                                <th>Observaciones</th>
+                                <th>Notas</th>
                                 <th>Inicio</th>
                                 <th>Tiempo</th>
                                 <th>Acciones</th>

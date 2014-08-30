@@ -49,6 +49,10 @@ class TicketRepo extends BaseRepo {
     {
         if(strlen($text) > $num)
         {
+            if($text=='MCARRANZA')
+            {
+                $text = 'MOCARRANZA';
+            }
             $text=substr($text,0,$num);
         }
         else
@@ -58,6 +62,87 @@ class TicketRepo extends BaseRepo {
         return $text;  
     }
 
+    public function cutSec($text,$num)
+    {
+        $text=substr($text,0,$num);
+        return $text;  
+    }
+
+    public function toHours($min,$type)
+    {   //obtener seconds
+        $sec = $min * 60;
+        //dias es la division de n segs entre 86400 segundos que representa un dia
+        $dias=floor($sec/86400);
+        //mod_hora es el sobrante, en horas, de la division de días;    
+        $mod_hora=$sec%86400;
+        //hora es la division entre el sobrante de horas y 3600 segundos que representa una hora;
+        $horas=floor($mod_hora/3600);        
+        //mod_minuto es el sobrante, en minutos, de la division de horas;       
+        $mod_minuto=$mod_hora%3600;
+        //minuto es la division entre el sobrante y 60 segundos que representa un minuto;
+        $minutos=floor($mod_minuto/60);
+        if($horas<=0)
+        {
+            //echo $minutos." minutos";
+            $text = $minutos.' min';
+        }
+        elseif($dias<=0)
+        {
+            if($type=='round')
+            {
+                $text = $horas.' hrs';
+            }
+            else
+            {
+            $text = $horas." hrs ".$minutos;
+            }
+        }
+        else
+        {
+            if($type=='round')
+            {
+                $text = $dias.' dias';
+            }
+            else
+            {
+            $text = $dias." dias ".$horas." hrs ".$minutos." min";
+            }
+            //echo $dias." dias ".$horas." horas ".$minutos." minutos";
+            
+        }
+        return $text;  
+    }
+
+    public function cutRecents($recents_tickets)
+    {
+        //
+        foreach ($recents_tickets as $ticket => &$val)     
+            {
+                //definir los campos a modificar
+                $val['notes'] = $this->cutText($val['notes'],15);
+                $val['add_by'] = $this->cutUser($val['add_by'],2);
+                $val['request'] = $this->cutText($val['request'],25);
+                $val['minutes'] = $this->toHours($val['minutes'],'full');
+            }
+        return $recents_tickets;
+
+    }
+
+    public function cutPDF($recents_tickets)
+    {
+        //
+        foreach ($recents_tickets as $ticket => &$val)     
+            {
+                //definir los campos a modificar
+                $val['notes'] = $this->cutText($val['notes'],15);
+                $val['add_by'] = $this->cutUser($val['add_by'],2);
+                $val['request'] = $this->cutText($val['request'],25);
+                $val['minutes'] = $this->toHours($val['minutes'],'full');
+            }
+        return $recents_tickets;
+
+    }
+
     public function getidCategory($slug)
     {
         return Category::where('slug', '=', $slug)->first();
@@ -65,7 +150,7 @@ class TicketRepo extends BaseRepo {
 
     public function oneCategory($id, $take=10)
     {
-        return Ticket::where('category_id', '=', $id)->orderBy('created_at','desc')->paginate();           
+        return Ticket::where('category_id', '=', $id)->orderBy('status','asc')->orderBy('id','desc')->paginate();      
     }
 
     public function newTicket()
@@ -120,21 +205,34 @@ class TicketRepo extends BaseRepo {
 
     public function reports($take = 10)
     {
-        return Ticket::orderBy('created_at','desc')->paginate();        
+        return Ticket::orderBy('id','desc')->paginate();        
     }
 
     public function reportsPdf()
     {
-        return Ticket::orderBy('created_at','desc')->paginate();       
+        return Ticket::orderBy('id','desc')->paginate();       
     }
 
     public function searchTop($campo,$datei,$datef)
     {
-        $campo = 'request';
-        $datei = '2014-01-01';
-        $datef = '2014-07-09';
-        //return \DB::select('SELECT request , COUNT(*) as solicitudes FROM tickets GROUP BY ? ORDER BY solicitudes desc',array($campo));
-        return \DB::select('SELECT request , COUNT(*) as solicitudes FROM tickets GROUP BY ? ORDER BY solicitudes desc',array($campo));
+        if (strlen($datei)==0)
+        {
+           $datei = '2000-01-01'; 
+        }
+        if (strlen($datef)==0)
+        {
+           $datef = '2030-01-01'; 
+        }
+        // $campo = 'request';
+        // $datei = '2014-01-01';
+        // $datef = '2014-07-09';
+        //echo $campo;
+        $group_by = array($campo);
+        //print_r($group_by);
+        //$sql = 'SELECT request , COUNT(*) as solicitudes FROM tickets GROUP BY ? ORDER BY solicitudes desc';
+        $sql = "SELECT ".$campo.", COUNT(*) as solicitudes FROM tickets WHERE created_at >= '".$datei."' && created_at <='".$datef."' GROUP BY ".$campo." ORDER BY solicitudes desc LIMIT 0,10";
+        //echo $sql;
+        return \DB::select( $sql);
 
         //return Ticket::orderBy($campo,'desc')->take(10)-get($campo,); 
         //return \DB::select('SELECT ? , COUNT(*) as solicitudes FROM tickets WHERE created_at >= ? && created_at <= ? GROUP BY ? ORDER BY solicitudes desc',array($campo,$datei,$datef,$campo));

@@ -30,7 +30,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         {{ Form::label('view', 'Departamento') }}
-                        {{ Form::select('view',array('amadellaves' => 'Ama de Llaves', 'areaspublicas' => 'Areas Publicas', 'ayb' => 'AyB', 'mantenimiento' => 'Mantenimiento', 'recepcion' => 'Recepción', 'sistemas' => 'Sistemas', 'telefonos' => 'Telefonos'),'amadellaves',array('class' => 'form-control')) }}
+                        {{ Form::select('view',array('ALLAVES' => 'Ama de Llaves', 'AP' => 'Areas Publicas', 'AYB' => 'AyB', 'MANTTO' => 'Mantenimiento', 'REC' => 'Recepción', 'SIS' => 'Sistemas', 'TEL' => 'Telefonos'),'ALLAVES',array('class' => 'form-control')) }}
                         <p class="error_message">{{ $errors->first('view')}}</p>
                     </div>
                 </div>

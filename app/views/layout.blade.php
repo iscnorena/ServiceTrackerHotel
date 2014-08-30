@@ -52,7 +52,7 @@
             <ul class="nav navbar-nav pull-right">
                 
                 
-                @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin' ||  Auth::user()->type==='usuario' )                
+                @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin')                
                 <!-- Directory -->
                 <li><a href="{{ route('directory-search') }}">Directorio</a></li>
                 @endif
@@ -85,8 +85,9 @@
                         <!--<li><a href="{{ route('list-ticket') }}">Lista</a></li>-->
                         <!-- <li><a href="{{ route('recents-ticket') }}">Ultimos</a></li> -->
                         <li><a href="{{ route('reports-ticket') }}">Reportes</a></li>
-                         @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin')
                         <li><a href="{{ route('top-ticket') }}">TOP</a></li>
+                         @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin')
+                         
                         @endif
                     </ul>
                 </li>

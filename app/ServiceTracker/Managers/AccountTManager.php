@@ -21,7 +21,8 @@ class AccountTManager extends BaseManager {
             'attend_by'     =>'required',
             'category_id'   =>'required',
             'user_id'       =>'',
-            'created_at'       =>''
+            'created_at'       =>'',
+            'updated_at'       =>''
 
         ];
 

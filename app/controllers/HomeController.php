@@ -31,6 +31,8 @@ class HomeController extends BaseController {
 			//return $view;
 			$id=$category_id['id'];
 			$onecategory_tickets = $this->ticketRepo->oneCategory($id);
+			//se hacen las modificaciones a los campos para reducirlos
+			$onecategory_tickets = $this->ticketRepo->cutRecents($onecategory_tickets);
 			//return $onecategory_tickets;
         	return View::make('depto',compact ('onecategory_tickets','user'));
 			//return 'eres visitante';
@@ -42,17 +44,9 @@ class HomeController extends BaseController {
             App::abort(404);
         }
 		$recents_tickets = $this->ticketRepo->recents();
-		 foreach ($recents_tickets as $ticket => &$val)     
-        {
-            //echo $ticket;
-            //echo $val['notes'];
-            $val['notes'] = $this->ticketRepo->cutText($val['notes'],15);
-           	$val['add_by'] = $this->ticketRepo->cutUser($val['add_by'],2);
-           	//$val['add_by'] = $this->ticketRepo->cutUser($val['add_by'],2);
-            //echo $val['notes'];
-            //echo "--------------otro-----------";
-            //$ticket->notes = $this->ticketRepo->cutText($ticket->notes,3);
-        }
+		//se hacen las modificaciones a los campos para reducirlos
+		$recents_tickets = $this->ticketRepo->cutRecents($recents_tickets);
+
         return View::make('home',compact ('recents_tickets','categories','user'));
 		//return View::make('home');//,compact ('latest_tickets'));
 	}

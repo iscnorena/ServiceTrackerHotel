@@ -12,13 +12,13 @@
                     </div>
                     <div class="panel-body">
 
-                {{ Form::open(['route' => 'reportsview-ticket', 'method' => 'POST', 'role' => 'form', 'novalidate']) }}
+                {{ Form::open(['route' => 'topview-ticket', 'method' => 'POST', 'role' => 'form', 'novalidate']) }}
 
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             {{ Form::label('campo', 'Top') }}
-                            {{ Form::select('campo',array('requerimiento' => 'Requerimiento', 'category_id'=> 'Departamento'),'Requerimiento',array('class' => 'form-control')) }}
+                            {{ Form::select('campo',array('request' => 'Requerimiento', 'room'=> 'Habitacion' , 'floor'=> 'Piso','add_by' => 'Creados'),'Requerimiento',array('class' => 'form-control')) }}
                             <p class="error_message">{{ $errors->first('campo')}}</p>
                         </div>
                     </div>
@@ -68,21 +68,20 @@
                 <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-condensed">
-                            <tr>
-                                <th>#</th>
-                                <th>Campo</th>
-                                <th>Cantidad</th>
-                                <th>Ver</th>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Cantidad</th>
+                            <!-- <th>Ver</th> -->
                             </tr>
                             @foreach ($top_tickets as $row)
                             <tr>
-                                <td>{{ $row->request }}</td>
+                                <td>{{ $row->$campo }}</td>
                                 <td>{{ $row->solicitudes }}</td>
-                                <td>{{ $row->solicitudes }}</td>
+                                <!-- <td>
                                     <a href="{{ route('ticket') }}" class="btn btn-info">
                                         <span class="glyphicon glyphicon-search"></span> 
                                     </a>
-                                </td>
+                                </td> -->
                             </tr>
                              @endforeach
                         </table>

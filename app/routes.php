@@ -49,6 +49,9 @@ Route::post('reports/top', ['as' => 'topview-ticket', 'uses' => 'TicketControlle
 Route::get('reports/pdf', ['as' => 'reports-pdf', 'uses' => 'TicketController@reportspdfTicket']);
 
 Route::post('reports/tickets', array('uses' => 'TicketController@reportsView'));
+//TEST TICKETS
+
+
 
 /*********** Directory ****************/
 //Directory
@@ -76,25 +79,21 @@ Route::get('back', ['as' => 'back', 'uses' => 'HomeController@backPage']);
 Route::post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
 
 // Formularios
-Route::group(['before' => 'auth'], function () {
-   //formularios editar perfil
-Route::get('account', ['as' => 'account', 'uses' => 'UsersController@account']);
-Route::put('account', ['as' => 'update_account', 'uses' => 'UsersController@updateAccount']);
-
-
-    // Admin routes
-
-    Route::group(['before' => 'is_admin'], function () {
-        //requiere servira para colocar los Route dentro de una archivo php
-        //y asi poder tener mas limpio este archivo
-        //require (__DIR__ . '/routes/admin.php');
-        Route::get('admin/candidate/{id}', ['as' => 'admin_candidate_edit', function ($id) {
-
-    return 'Editando el candidato ' . $id;
-    }]);
-
-    });
-
+Route::group(['before' => 'auth'], function () 
+{
+  //formularios editar perfil
+  Route::get('account', ['as' => 'account', 'uses' => 'UsersController@account']);
+  Route::put('account', ['as' => 'update_account', 'uses' => 'UsersController@updateAccount']);
+  // Admin routes
+  Route::group(['before' => 'is_admin'], function () 
+  {
+      //requiere servira para colocar los Route dentro de una archivo php
+      //y asi poder tener mas limpio este archivo
+      //require (__DIR__ . '/routes/admin.php');
+      Route::get('admin/candidate/{id}', ['as' => 'admin_candidate_edit', function ($id) {
+      return 'Editando el candidato ' . $id;
+      }]);
+  });
 });
 
 

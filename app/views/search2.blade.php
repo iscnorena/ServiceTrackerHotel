@@ -21,7 +21,7 @@
             <th>Hab</th>
             <th>Requerimiento</th>
             <th>Estado</th>
-            <th>Anexado</th>
+            <th>Por</th>
             <th>Atendido</th>
             <th>Depto</th>
             <th>Inicio</th>
