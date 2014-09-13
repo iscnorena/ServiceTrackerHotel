@@ -23,10 +23,8 @@ Ejecutar desde consola el siguiente comando, ubicándonos  dentro de la carpeta 
 
 ## Agregar componentes
 
-Ejecutamos
 	composer update --dev
 	
-y ejecutar
 	php artisan debugbar:publish
 	php artisan config:publish barryvdh/laravel-dompdf
 
@@ -37,9 +35,7 @@ y ejecutar
 
 ## Crear datos de prueba
 
-importante generar un seed a la vez por lo tanto en app/database/seed/DatabaseSeeder descomentar un seed y ejecutamos.
 	php artisan db:seed
-Volvemos a comentarlo y descomentar otro y así sucesivamente.
 
 ### License
 
