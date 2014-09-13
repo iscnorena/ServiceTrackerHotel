@@ -12,7 +12,8 @@ Service Tracker es una aplicación web diseñada para el seguimiento de incident
 
 ## Instalación 
 
-Ejecutar desde consola el siguiente comando, ubicándonos  dentro de la carpeta “www” para el caso de wamp:
+Ejecutar desde consola el siguiente comando, ubicándonos  dentro de la carpeta “www” para el caso de wamp.
+
 	composer create-project laravel/laravel nombreproyecto
 
 ##Crear la base de datos
@@ -20,7 +21,7 @@ Ejecutar desde consola el siguiente comando, ubicándonos  dentro de la carpeta 
 	SET time_zone = '-06:00';
 	CREATE DATABASE IF NOT EXISTS servicetrackerhotel2014 CHARACTER SET latin1 COLLATE latin1_spanish_ci;
 
-### Agregar componentes
+## Agregar componentes
 
 Ejecutamos
 	composer update --dev
@@ -29,12 +30,12 @@ y ejecutar
 	php artisan debugbar:publish
 	php artisan config:publish barryvdh/laravel-dompdf
 
-### Crear migraciones
+## Crear migraciones
 
 	php artisan migrate:install
 	php artisan migrate
 
-### Crear datos de prueba
+## Crear datos de prueba
 
 importante generar un seed a la vez por lo tanto en app/database/seed/DatabaseSeeder descomentar un seed y ejecutamos.
 	php artisan db:seed
