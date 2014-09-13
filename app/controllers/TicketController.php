@@ -87,24 +87,6 @@ class TicketController extends BaseController {
         {
             //resuelto-resuelto
         }
-
-
-        // if ($status == 'en_proceso')
-        // {
-        //     $input['minutes'] = '';
-        //     $date = date("Y-m-d G:i:s");
-        //     $input['created_at'] = date("Y-m-d G:i:s");
-        //     //echo $input['created_at'];
-        // }
-        // elseif ($status == 'resuelto')
-        // {
-        //     $created_at = $ticket['created_at'];
-        //     $date = date("Y-m-d G:i:s");
-        //     $ticket['resolved_at'] = $date;
-        //     $sec =strtotime($date) - strtotime($created_at);
-        //     $min = intval($sec/60);
-        //     $input['minutes'] = $min;
-        // }
         //Capitalizar Campos
         $input['name_guest'] = ucfirst( strtolower($input['name_guest']) );
         $input['request'] = ucfirst( strtolower($input['request']) );
@@ -184,20 +166,33 @@ class TicketController extends BaseController {
         $input = Input::all();
         //forzamos que sea el id del usuario logueado
         $input['user_id'] = $user->id;
-        //Capitalizar Campos
-        $input['name_guest'] = ucfirst( strtolower($input['name_guest']) );
-        $input['request'] = ucfirst( strtolower($input['request']) );
-        $input['report_by'] = ucfirst( strtolower($input['report_by']) );
-        $input['attend_by'] = ucfirst( strtolower($input['attend_by']) );
-        $input['notes'] = ucfirst( strtolower($input['notes']) );
-        //Obtener Piso a partir de la hab
-        $room = $input['room'];
-        $input['floor'] = $this->ticketRepo->getFloor($room);
-    	//return $input['floor'];
-        $ticket = $this->ticketRepo->newTicket();
-        $manager = new RegisterTManager($ticket, $input);
-        $manager->save();
-        return Redirect::route('home');
+        //se compara si la habitacion es mayor de 5 quiere decir que son varias habitaciones
+        //con el mismo requerimiento
+        if ( strlen($input['room']) >= 5 )
+        {
+            $room_part = explode('-', $input['room']);
+            $count=count($room_part);
+            //supóniendo que son count=3
+            for ($i=0; $i < $count; $i++) 
+            { 
+                $input['room'] = $room_part[$i];
+                $input = $this->ticketRepo->prepareNewTicket($input);
+                $ticket = $this->ticketRepo->newTicket();
+                $manager = new RegisterTManager($ticket, $input);
+                $manager->save();
+            }
+            
+            return Redirect::route('home');
+        }
+        else
+        {
+            $input = $this->ticketRepo->prepareNewTicket($input);
+            $ticket = $this->ticketRepo->newTicket();
+            $manager = new RegisterTManager($ticket, $input);
+            $manager->save();
+
+            return Redirect::route('home');
+        }
     }
 
     public function recents()
@@ -251,9 +246,8 @@ class TicketController extends BaseController {
     public function reportsView()
     {   
         //check which submit was clicked on
-        if(Input::get('buscar')) 
-        {
-            $input = Input::all();
+
+            $input = Input::all(); 
             $room = $input['room'];
             $name = $input['name_guest'];
             $status = $input['status'];
@@ -261,27 +255,20 @@ class TicketController extends BaseController {
             $datef = $input['datef'];
             //return 'status: '.$status.' room: '.$room.' name: '.$name;
             //return 'datei : '.$datei.'------datef: '.$datef;
+        if(Input::get('buscar')) 
+        {  
+
             $reports_tickets = $this->ticketRepo->searchReport($room,$name,$status,$datei,$datef);
+            $reports_tickets = $this->ticketRepo->cutRecents($reports_tickets);
             return View::make('tickets/reports',compact ('reports_tickets'));            
         } 
         elseif(Input::get('pdf')) 
         {
-            $input = Input::all();
-            $room = $input['room'];
-            $name = $input['name_guest'];
-            $status = $input['status'];
-            $datei = $input['datei'];
-            $datef = $input['datef'];
-            //return 'status: '.$status.' room: '.$room.' name: '.$name;
-            //return 'datei : '.$datei.'------datef: '.$datef;
             $reports_tickets = $this->ticketRepo->searchReportPdf($room,$name,$status,$datei,$datef);
+            $reports_tickets = $this->ticketRepo->cutPDF($reports_tickets);
             $pdf = PDF::loadView('search2',compact ('reports_tickets'));
             return $pdf->stream();
-        }
-
-
-
-        
+        }      
     }
 
     public function reportsTicket()

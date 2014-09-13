@@ -5,9 +5,10 @@
 
 class Directory extends \Eloquent {
 
-    //protected $fillable = array('name_guest', 'room', 'group', 'request','notes','report_by','attend_by','status', 'minutes', 'removed', 'floor', 'update_by', 'delete_by', 'resolved_at', 'add_by','category_id','user_id');
+    protected $fillable = array('full_name', 'area', 'ext', 'direct','depto','updated_at','created_at');
     protected $perPage = 10;
     protected $table = 'directory';
+    public $timestamps = false;
 
     /*
     public function user()

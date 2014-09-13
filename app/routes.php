@@ -52,9 +52,17 @@ Route::post('reports/tickets', array('uses' => 'TicketController@reportsView'));
 //TEST TICKETS
 
 
-
 /*********** Directory ****************/
 //Directory
+//nuevo
+Route::get('directory/sign-up', ['as' => 'sign_up-tel', 'uses' => 'DirectoryController@signUp']);
+Route::post('directory/sign-up', ['as' => 'register-tel', 'uses' => 'DirectoryController@register']);
+//lista
+Route::get('directory/list', ['as' => 'list-tel', 'uses' => 'DirectoryController@listAll']);
+//edit
+Route::get('directory/{id}', ['as' => 'edit-tel', 'uses' => 'DirectoryController@edit']);
+Route::put('directory/{id}', ['as' => 'update-tel', 'uses' => 'DirectoryController@update']);
+
 //busqueda
 Route::get('search-directory', ['as' => 'directory-search', 'uses' => 'TicketController@searchDirectory']);
 Route::get('res', function (){

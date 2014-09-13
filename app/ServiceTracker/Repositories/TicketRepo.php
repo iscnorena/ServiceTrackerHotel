@@ -113,6 +113,21 @@ class TicketRepo extends BaseRepo {
         return $text;  
     }
 
+    public function prepareNewTicket($input)
+    {
+        //Capitalizar Campos
+        $input['name_guest'] = ucfirst( strtolower($input['name_guest']) );
+        $input['request'] = ucfirst( strtolower($input['request']) );
+        $input['report_by'] = ucfirst( strtolower($input['report_by']) );
+        $input['attend_by'] = ucfirst( strtolower($input['attend_by']) );
+        $input['notes'] = ucfirst( strtolower($input['notes']) );
+        //Obtener Piso a partir de la hab
+        $room = $input['room'];
+        $input['floor'] = $this->getFloor($room);
+        
+        return $input;
+    }
+
     public function cutRecents($recents_tickets)
     {
         //
@@ -198,19 +213,19 @@ class TicketRepo extends BaseRepo {
         }
         else
         {
-            $piso="cualquier cosa qeu o es piso";  
+            $piso="0";  
         }
         return $piso;
     }
 
     public function reports($take = 10)
     {
-        return Ticket::orderBy('id','desc')->paginate();        
+        return Ticket::orderBy('status','asc')->orderBy('created_at','desc')->paginate();        
     }
 
     public function reportsPdf()
     {
-        return Ticket::orderBy('id','desc')->paginate();       
+        return Ticket::orderBy('status','asc')->orderBy('created_at','desc')->paginate();       
     }
 
     public function searchTop($campo,$datei,$datef)
@@ -258,38 +273,38 @@ class TicketRepo extends BaseRepo {
         {   
             if (strlen($datei)==0 && strlen($datef)==0)
             {
-                return Ticket::orderBy('created_at','desc')->paginate();  
+                return Ticket::orderBy('status','asc')->orderBy('created_at','desc')->paginate();  
             }
             elseif(strlen($datei)!=0 && strlen($datef)==0)
             {   
-                return Ticket::where('created_at', '>=', $datei)->orderBy('created_at','desc')->paginate();  
+                return Ticket::where('created_at', '>=', $datei)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();  
             }
             elseif(strlen($datei)==0 && strlen($datef)!=0)
             {
-                return Ticket::where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)!=0)
             {
-                return Ticket::where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
         }
         elseif(strlen($room)!=0 && strlen($name)==0 && $status=='todos')
         {   
             if (strlen($datei)==0 && strlen($datef)==0)
             {
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)==0)
             {   
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('created_at', '>=', $datei)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('created_at', '>=', $datei)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)==0 && strlen($datef)!=0)
             {
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)!=0)
             {
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
                 
         }
@@ -297,19 +312,19 @@ class TicketRepo extends BaseRepo {
         {
             if (strlen($datei)==0 && strlen($datef)==0)
             {
-                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->orderBy('created_at','desc')->paginate();
+                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)==0)
             {   
-                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '>=', $datei)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '>=', $datei)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)==0 && strlen($datef)!=0)
             {
-                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)!=0)
             {
-                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
                         
         }
@@ -317,38 +332,38 @@ class TicketRepo extends BaseRepo {
         {
             if (strlen($datei)==0 && strlen($datef)==0)
             {
-                return Ticket::where('status', 'LIKE', '%'.$status.'%')->orderBy('created_at','desc')->paginate();                
+                return Ticket::where('status', 'LIKE', '%'.$status.'%')->orderBy('status','asc')->orderBy('created_at','desc')->paginate();                
             }
             elseif(strlen($datei)!=0 && strlen($datef)==0)
             {   
-                return Ticket::where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)==0 && strlen($datef)!=0)
             {
-                return Ticket::where('status', 'LIKE', '%'.$status.'%')->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('status', 'LIKE', '%'.$status.'%')->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)!=0)
             {
-                return Ticket::where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
         }
         elseif(strlen($room)!=0 && strlen($name)!=0 && $status=='todos')
         {
             if (strlen($datei)==0 && strlen($datef)==0)
             {
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)==0)
             {   
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '>=', $datei)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '>=', $datei)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)==0 && strlen($datef)!=0)
             {
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)!=0)
             {
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             
         }
@@ -356,19 +371,19 @@ class TicketRepo extends BaseRepo {
         {
             if (strlen($datei)==0 && strlen($datef)==0)
             {
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)==0)
             {   
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)==0 && strlen($datef)!=0)
             {
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)!=0)
             {
-                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('room', 'LIKE', '%'.$room.'%')->where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
                      
         }
@@ -376,26 +391,26 @@ class TicketRepo extends BaseRepo {
         {
             if (strlen($datei)==0 && strlen($datef)==0)
             {
-                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->orderBy('created_at','desc')->paginate();
+                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)==0)
             {   
-                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)==0 && strlen($datef)!=0)
             {
-                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             elseif(strlen($datei)!=0 && strlen($datef)!=0)
             {
-                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('created_at','desc')->paginate();
+                return Ticket::where('name_guest', 'LIKE', '%'.$name.'%')->where('status', 'LIKE', '%'.$status.'%')->where('created_at', '>=', $datei)->where('created_at', '<=', $datef)->orderBy('status','asc')->orderBy('created_at','desc')->paginate();
             }
             
         }
         else 
         {
             //return 'no entro a ningun lado';
-            return Ticket::orderBy('created_at','desc')->paginate(); 
+            return Ticket::orderBy('status','asc')->orderBy('created_at','desc')->paginate(); 
         } 
     }
 

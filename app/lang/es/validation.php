@@ -116,7 +116,12 @@ return array(
         'status'    => 'estado',
         'add_by'    => 'anexado por',
         'category_id'    => 'departamento',
-        'user_id'    => 'id usuario'
+        'user_id'    => 'id usuario',
+        //Directory
+        'area'    => 'area',
+        'ext'    => 'extension',
+        'direct'    => 'directo',
+        'depto'    => 'depto'
         ),
 
 );

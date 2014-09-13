@@ -20,7 +20,7 @@ class CreateDirectoryTable extends Migration {
             $table->string('area',255);
             $table->string('ext',255);
             $table->string('direct',255);
-            $table->enum('depto', ['Ama de Llaves', 'Areas Publicas', 'AyB','Desarrollo Humano','Finanzas','Mantenimiento','Recepcion','Sistemas','Seguridad','Ventas','Otro']);
+            $table->string('depto',255);
             $table->timestamps();
 		});
 	}

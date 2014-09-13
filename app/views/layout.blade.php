@@ -52,9 +52,18 @@
             <ul class="nav navbar-nav pull-right">
                 
                 
-                @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin')                
+                @if ( Auth::user()->type==='superadmin' ||  Auth::user()->type==='admin' ||  Auth::user()->type==='usuario' )               
                 <!-- Directory -->
-                <li><a href="{{ route('directory-search') }}">Directorio</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="icon icon-wh i-profile"></span> Directorio <span class="caret"></span>
+                    </a>
+                        <ul class="dropdown-menu">
+                        <li><a href="{{ route('directory-search') }}">Buscar</a></li>
+                        <li><a href="{{ route('sign_up-tel') }}">Nuevo</a></li>
+                        <li><a href="{{ route('list-tel') }}">Ver</a></li>
+                    </ul>
+                </li>
                 @endif
 
                 @if ( Auth::user()->type==='superadmin' )
