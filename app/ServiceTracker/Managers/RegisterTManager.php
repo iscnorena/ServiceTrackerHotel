@@ -6,7 +6,7 @@ class RegisterTManager extends BaseManager {
     {
         $rules = [
             'name_guest'    =>'',
-            'room'          =>'required|integer',
+            'room'          =>'required',
             'request'       =>'required',
             'notes'         =>'',
             'report_by'     =>'required',

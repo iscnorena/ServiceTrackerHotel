@@ -8,7 +8,7 @@ class AccountTManager extends BaseManager {
         $rules = [
 
             'name_guest'    =>'',
-            'room'          =>'required|integer',
+            'room'          =>'required',
             'group'         =>'',
             'request'       =>'required',
             'notes'         =>'',
