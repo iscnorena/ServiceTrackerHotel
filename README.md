@@ -36,6 +36,11 @@ Ejecutar desde consola el siguiente comando, ubicándonos  dentro de la carpeta 
 ## Crear datos de prueba
 
 	php artisan db:seed
+## Bienvenido
+
+Si tuvimos suerte veras lo siguiente.
+
+<img src="https://github.com/iscnorena/ServiceTrackerHotel/blob/master/public/img/welcome.png"/>
 
 ### License
 
