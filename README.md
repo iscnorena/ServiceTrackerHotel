@@ -42,6 +42,10 @@ Si tuvimos suerte veras lo siguiente.
 
 <img src="https://github.com/iscnorena/ServiceTrackerHotel/blob/master/public/img/welcome.png"/>
 
+usuario: admin y clave:admin
+
+<img src="https://github.com/iscnorena/ServiceTrackerHotel/blob/master/public/img/index.png"/>
+
 ### License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
